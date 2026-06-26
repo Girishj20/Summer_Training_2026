@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+.vscode/
+.idea/
+.agents/
+*.log
+inspect_project.py
+inspect_cells.py
+inspect_cells_2.py
+inspect_data_load.py
+get_features_summary.py
+train_and_save.py
+train_models.py

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedPredict | Clinical Decision Support Dashboard</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="glass-bg-decor decor-1"></div>
+    <div class="glass-bg-decor decor-2"></div>
+    <div class="glass-bg-decor decor-3"></div>
+
+    <div class="app-container">
+        <!-- Main Sidebar / Header -->
+        <header class="main-header">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-heart-pulse"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>MedPredict<span>AI</span></h1>
+                    <p>Clinical Decision Support Systems</p>
+                </div>
+            </div>
+
+            <!-- Main Navigation Tabs -->
+            <nav class="main-nav">
+                <button class="nav-btn active" data-view="predictor"><i class="fa-solid fa-calculator"></i> Predictor Dashboard</button>
+                <button class="nav-btn" data-view="directory" id="navBtnDirectory"><i class="fa-solid fa-address-book"></i> Patient Directory</button>
+            </nav>
+
+            <div class="header-badges">
+                <span class="badge badge-primary"><i class="fa-solid fa-network-wired"></i> Decision Tree Core</span>
+                <span class="badge badge-secondary"><i class="fa-solid fa-bolt"></i> Real-time Inference</span>
+            </div>
+        </header>
+
+        <!-- Main Body Grid -->
+        <main class="main-content" id="predictorView">
+            <!-- Left Panel: Input Section -->
+            <section class="panel input-panel">
+                <div class="panel-header">
+                    <h2><i class="fa-solid fa-user-injured"></i> Patient Information Form</h2>
+                    <p>Configure patient vitals, demographics, and clinical details</p>
+                </div>
+
+                <!-- Input Sub-tabs -->
+                <div class="form-tabs">
+                    <button class="tab-btn active" data-tab="demographics"><i class="fa-solid fa-user"></i> Basics</button>
+                    <button class="tab-btn" data-tab="vitals"><i class="fa-solid fa-temperature-half"></i> Vitals</button>
+                    <button class="tab-btn" data-tab="history"><i class="fa-solid fa-file-medical"></i> History</button>
+                    <button class="tab-btn" data-tab="admission"><i class="fa-solid fa-hospital-user"></i> Stay & Lifestyle</button>
+                </div>
+
+                <form id="patientForm" class="prediction-form">
+                    <!-- TAB 1: Demographics -->
+                    <div class="tab-content active" id="tab-demographics">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="Patient_Name"><i class="fa-solid fa-signature"></i> Patient Name</label>
+                                <input type="text" id="Patient_Name" name="Patient_Name" placeholder="E.g., Aryan Naidu" value="Aryan A. Naidu">
+                            </div>
+                            <div class="form-group">
+                                <label for="Age"><i class="fa-solid fa-calendar-days"></i> Age (Years)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Age" name="Age" min="18" max="90" value="54" class="range-slider">
+                                    <span class="slider-value" id="val-Age">54</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Gender"><i class="fa-solid fa-venus-mars"></i> Gender</label>
+                                <select id="Gender" name="Gender"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Blood_Group"><i class="fa-solid fa-droplet"></i> Blood Group</label>
+                                <select id="Blood_Group" name="Blood_Group"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Height_cm"><i class="fa-solid fa-arrows-up-down"></i> Height (cm)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Height_cm" name="Height_cm" min="140" max="200" value="170" class="range-slider">
+                                    <span class="slider-value" id="val-Height_cm">170</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Weight_kg"><i class="fa-solid fa-weight-scale"></i> Weight (kg)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Weight_kg" name="Weight_kg" min="40" max="120" value="80" class="range-slider">
+                                    <span class="slider-value" id="val-Weight_kg">80</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 2: Vitals -->
+                    <div class="tab-content" id="tab-vitals">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="Blood_Pressure"><i class="fa-solid fa-heart"></i> Systolic BP (mmHg)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Blood_Pressure" name="Blood_Pressure" min="90" max="190" value="140" class="range-slider">
+                                    <span class="slider-value" id="val-Blood_Pressure">140</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Heart_Rate"><i class="fa-solid fa-gauge"></i> Heart Rate (bpm)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Heart_Rate" name="Heart_Rate" min="55" max="130" value="93" class="range-slider">
+                                    <span class="slider-value" id="val-Heart_Rate">93</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Oxygen_Level"><i class="fa-solid fa-wind"></i> Oxygen Level (SpO2 %)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Oxygen_Level" name="Oxygen_Level" min="85" max="100" value="93" class="range-slider">
+                                    <span class="slider-value" id="val-Oxygen_Level">93</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Blood_Sugar"><i class="fa-solid fa-cubes-stacked"></i> Blood Sugar (mg/dL)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Blood_Sugar" name="Blood_Sugar" min="70" max="260" value="164" class="range-slider">
+                                    <span class="slider-value" id="val-Blood_Sugar">164</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Temperature"><i class="fa-solid fa-thermometer"></i> Temperature (°C)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Temperature" name="Temperature" min="36.0" max="40.0" step="0.1" value="38.0" class="range-slider">
+                                    <span class="slider-value" id="val-Temperature">38.0</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Cholesterol"><i class="fa-solid fa-circle-nodes"></i> Cholesterol</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Cholesterol" name="Cholesterol" min="120" max="300" value="208" class="range-slider">
+                                    <span class="slider-value" id="val-Cholesterol">208</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: History -->
+                    <div class="tab-content" id="tab-history">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="Disease_Type"><i class="fa-solid fa-virus"></i> Disease Type</label>
+                                <select id="Disease_Type" name="Disease_Type"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Disease_Severity"><i class="fa-solid fa-triangle-exclamation"></i> Disease Severity</label>
+                                <select id="Disease_Severity" name="Disease_Severity"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Condition_Level"><i class="fa-solid fa-stethoscope"></i> Condition Level</label>
+                                <select id="Condition_Level" name="Condition_Level"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Previous_Disease"><i class="fa-solid fa-clock-rotate-left"></i> Previous Disease</label>
+                                <select id="Previous_Disease" name="Previous_Disease"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Family_History"><i class="fa-solid fa-people-roof"></i> Family History</label>
+                                <select id="Family_History" name="Family_History"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: Admission & Lifestyle -->
+                    <div class="tab-content" id="tab-admission">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="Emergency_Case"><i class="fa-solid fa-truck-medical"></i> Emergency Case</label>
+                                <select id="Emergency_Case" name="Emergency_Case"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="ICU_Required"><i class="fa-solid fa-bed-pulse"></i> ICU Required</label>
+                                <select id="ICU_Required" name="ICU_Required"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Room_Allotted"><i class="fa-solid fa-door-open"></i> Room Allotted</label>
+                                <select id="Room_Allotted" name="Room_Allotted"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Hospital_Stay_Days"><i class="fa-solid fa-hospital"></i> Stay (Days)</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Hospital_Stay_Days" name="Hospital_Stay_Days" min="1" max="25" value="15" class="range-slider">
+                                    <span class="slider-value" id="val-Hospital_Stay_Days">15</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Medication_Count"><i class="fa-solid fa-pills"></i> Medication Count</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Medication_Count" name="Medication_Count" min="0" max="10" value="5" class="range-slider">
+                                    <span class="slider-value" id="val-Medication_Count">5</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Doctor_Visits"><i class="fa-solid fa-user-doctor"></i> Doctor Visits</label>
+                                <div class="slider-container">
+                                    <input type="range" id="Doctor_Visits" name="Doctor_Visits" min="0" max="15" value="8" class="range-slider">
+                                    <span class="slider-value" id="val-Doctor_Visits">8</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Insurance_Type"><i class="fa-solid fa-shield-halved"></i> Insurance Type</label>
+                                <select id="Insurance_Type" name="Insurance_Type"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Exercise_Level"><i class="fa-solid fa-person-running"></i> Exercise Level</label>
+                                <select id="Exercise_Level" name="Exercise_Level"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Smoking_Status"><i class="fa-solid fa-smoking"></i> Smoking Status</label>
+                                <select id="Smoking_Status" name="Smoking_Status"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Alcohol_Status"><i class="fa-solid fa-beer-mug-empty"></i> Alcohol Status</label>
+                                <select id="Alcohol_Status" name="Alcohol_Status"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="Diet_Type"><i class="fa-solid fa-apple-whole"></i> Diet Type</label>
+                                <select id="Diet_Type" name="Diet_Type"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Predict Buttons -->
+                    <div class="action-buttons">
+                        <button type="button" id="btnPredictBoth" class="btn btn-predict-all"><i class="fa-solid fa-wand-magic-sparkles"></i> Predict Cost & Operation</button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- Right Panel: Results Dashboard -->
+            <section class="panel result-panel">
+                <!-- Result Overview Tab Header -->
+                <div class="panel-header dashboard-header">
+                    <h2><i class="fa-solid fa-chart-line"></i> Prediction Dashboard</h2>
+                    <p id="patientDisplayName">Patient: Aryan A. Naidu</p>
+                </div>
+
+                <!-- Grid of Outputs -->
+                <div class="results-grid">
+                    <!-- Box 1: Regressor output (Treatment Cost) -->
+                    <div class="result-card card-regressor">
+                        <div class="card-glow"></div>
+                        <div class="card-header">
+                            <span class="model-badge">Decision Tree Regressor</span>
+                            <h3>Predicted Treatment Cost</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="prediction-display">
+                                <span class="currency-symbol">₹</span>
+                                <span id="predictedCostValue" class="loading-placeholder">---,---</span>
+                            </div>
+                            <div class="stat-bar-container">
+                                <div class="stat-bar-fill" id="costProgress" style="width: 0%;"></div>
+                            </div>
+                            <div class="stat-bar-labels">
+                                <span>Min: ₹25K</span>
+                                <span class="cost-percentage-label" id="costPercentText">0% of max</span>
+                                <span>Max: ₹1.06M</span>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="extra-input">
+                                <label for="Operation_Needed_Input"><i class="fa-solid fa-scissors"></i> Operation Needed?</label>
+                                <select id="Operation_Needed_Input" class="form-control-sm">
+                                    <option value="No">No</option>
+                                    <option value="Yes" selected>Yes</option>
+                                </select>
+                            </div>
+                            <span class="tooltip-info"><i class="fa-solid fa-info-circle"></i> Input for Cost prediction</span>
+                        </div>
+                    </div>
+
+                    <!-- Box 2: Classifier output (Operation Needed) -->
+                    <div class="result-card card-classifier">
+                        <div class="card-glow"></div>
+                        <div class="card-header">
+                            <span class="model-badge">Decision Tree Classifier</span>
+                            <h3>Is Operation Needed?</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="prediction-display-badge">
+                                <div id="predictedOperationBadge" class="op-badge op-unknown">
+                                    <i class="fa-solid fa-question"></i>
+                                    <span>UNKNOWN</span>
+                                </div>
+                            </div>
+                            <div class="probability-container">
+                                <div class="prob-label">
+                                    <span>Confidence Indicator</span>
+                                    <span id="probPercentText">--%</span>
+                                </div>
+                                <div class="prob-bar-container">
+                                    <div class="prob-bar-fill" id="probProgress" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="extra-input">
+                                <label for="Treatment_Cost_Input"><i class="fa-solid fa-sack-dollar"></i> Treatment Cost (₹)</label>
+                                <input type="number" id="Treatment_Cost_Input" class="form-control-sm" value="542854">
+                            </div>
+                            <span class="tooltip-info"><i class="fa-solid fa-info-circle"></i> Input for Operation prediction</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ground Truth Panel -->
+                <div class="ground-truth-panel" id="groundTruthPanel" style="display: none;">
+                    <div class="gt-card">
+                        <div class="gt-card-header">
+                            <span class="model-badge">Excel Record Reference</span>
+                            <h3>Ground Truth Comparison</h3>
+                        </div>
+                        <div class="gt-card-body">
+                            <div class="gt-grid">
+                                <div class="gt-item">
+                                    <span class="gt-label"><i class="fa-solid fa-file-invoice-dollar"></i> Actual Cost</span>
+                                    <span class="gt-value" id="gtCost">₹---,---</span>
+                                </div>
+                                <div class="gt-item">
+                                    <span class="gt-label"><i class="fa-solid fa-hand-holding-medical"></i> Actual Operation Status</span>
+                                    <span class="gt-badge" id="gtOp">---</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clinical Care Plan Panel -->
+                <div class="panel care-plan-panel" id="carePlanPanel" style="display: none;">
+                    <div class="panel-header care-plan-header">
+                        <h3><i class="fa-solid fa-hand-holding-medical"></i> Clinical Care Plan & Recommendations</h3>
+                        <p>Dynamically generated guidance based on patient profile and model predictions</p>
+                    </div>
+                    <div class="care-plan-grid">
+                        <div class="care-card care-diet">
+                            <div class="care-icon"><i class="fa-solid fa-apple-whole"></i></div>
+                            <div class="care-info">
+                                <h4>Dietary Suggestions</h4>
+                                <p id="dietSuggestionText">Loading suggestions...</p>
+                            </div>
+                        </div>
+                        <div class="care-card care-meds">
+                            <div class="care-icon"><i class="fa-solid fa-pills"></i></div>
+                            <div class="care-info">
+                                <h4>Medication & Care Guidelines</h4>
+                                <p id="medSuggestionText">Loading guidelines...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Feature Importance Section -->
+                <div class="importance-section">
+                    <div class="section-title">
+                        <h3><i class="fa-solid fa-magnifying-glass-chart"></i> Clinical Drivers (Decision Tree Splits)</h3>
+                        <div class="chart-toggles">
+                            <button class="chart-toggle-btn active" id="toggleRegImp"><i class="fa-solid fa-coins"></i> Cost Drivers</button>
+                            <button class="chart-toggle-btn" id="toggleClfImp"><i class="fa-solid fa-hospital"></i> Operation Drivers</button>
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamic SVG Bar Chart -->
+                    <div class="chart-wrapper">
+                        <div class="chart-bars-container" id="importanceChart">
+                            <!-- Populated dynamically via JS -->
+                            <div class="chart-loading"><i class="fa-solid fa-spinner fa-spin"></i> Loading feature importances...</div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Directory Page Section (Full Width) -->
+            <section class="panel directory-view-panel" id="directoryView" style="display: none;">
+                <div class="panel-header directory-page-header">
+                    <div class="header-left">
+                        <h2><i class="fa-solid fa-address-book"></i> Patient Records Directory</h2>
+                        <p>Select a historical patient profile from the excel dataset to run predictions and compare with ground truth</p>
+                    </div>
+                    <div class="directory-search-container">
+                        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                        <input type="text" id="patientSearchInput" placeholder="Search by name, disease, gender..." class="directory-search-input">
+                    </div>
+                </div>
+                
+                <div class="patient-directory-container full-width-directory">
+                    <table class="patient-table">
+                        <thead>
+                            <tr>
+                                <th>Patient Name</th>
+                                <th>Age / Sex</th>
+                                <th>Blood Group</th>
+                                <th>Disease Type</th>
+                                <th>Severity</th>
+                                <th>Stay (Days)</th>
+                                <th>Actual Cost</th>
+                                <th>Actual Operation</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="patientListBody">
+                            <tr>
+                                <td colspan="9" class="text-center"><i class="fa-solid fa-spinner fa-spin"></i> Loading patients from Excel...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Custom Logic Script -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
